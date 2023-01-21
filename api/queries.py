@@ -23,3 +23,22 @@ QUERY_USER = gql(
         }
     }
     """)
+
+MUTATION_USER = gql(
+    """
+    mutation createUserMutation($input: UserCreateInput!) {
+        user(data: $input ) {
+            email
+            id
+            password
+            username
+        }
+    }
+    """)
+
+MUTATION_FILE_UPLOAD = gql(
+    """
+    mutation ReadFileMutation($file: Upload!) {
+        readFile(file: $file)
+    }
+    """)

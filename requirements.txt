@@ -1,3 +1,4 @@
 gql[aiohttp]
 typer[all]
 python-dotenv
+pydantic

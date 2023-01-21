@@ -1,0 +1,30 @@
+type Query {
+  user(userId: Int!): UserSchema!
+  users: [UserSchema!]!
+}
+
+type UserSchema {
+  id: ID!
+  username: String!
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  user(data: UserCreateInput!): UserSchema!
+  readFile(file: Upload!): String!
+  readFiles(files: [Upload!]!): [String!]!
+  readFolder(folder: FolderInput!): [String!]!
+}
+
+input UserCreateInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+scalar Upload
+
+input FolderInput {
+  files: [Upload!]!
+}
