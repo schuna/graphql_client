@@ -1,0 +1,6 @@
+.idea
+.env
+dist
+*.egg-info
+build
+*.spec
