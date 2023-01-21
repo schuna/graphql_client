@@ -11,3 +11,15 @@ QUERY_USERS = gql(
         }
     }
     """)
+
+QUERY_USER = gql(
+    """
+    query UserQuery($user_id: Int!) {
+        user(userId: $user_id) {
+            email
+            id
+            password
+            username
+        }
+    }
+    """)
