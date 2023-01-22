@@ -7,7 +7,7 @@ from api.queries import (
     QUERY_USERS, QUERY_USER,
     MUTATION_USER, MUTATION_FILE_UPLOAD
 )
-from api.utils import transport, schema_str
+from api.utils import transport
 
 
 async def execute_query(query: gql, variables=None, kwargs=None):
@@ -16,9 +16,8 @@ async def execute_query(query: gql, variables=None, kwargs=None):
     if kwargs is None:
         kwargs = dict()
     async with Client(
-            schema=schema_str,
             transport=transport,
-            fetch_schema_from_transport=False,
+            fetch_schema_from_transport=True,
     ) as session:
         return await session.execute(query, variable_values=variables, **kwargs)
 
