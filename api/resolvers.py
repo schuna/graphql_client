@@ -36,9 +36,10 @@ async def add_user(user: UserSchema):
 
 async def file_up_load(file: Path):
     with open(file, "rb") as f:
-        params = {"file": f}
+        params = {"filename": file.name, "file": f}
         res = await execute_query(
             MUTATION_FILE_UPLOAD,
             variables=params,
             kwargs={'upload_files': True})
-    print(res.get("readFile"))
+    print(res)
+

@@ -38,7 +38,9 @@ MUTATION_USER = gql(
 
 MUTATION_FILE_UPLOAD = gql(
     """
-    mutation ReadFileMutation($file: Upload!) {
-        readFile(file: $file)
+    mutation ReadFileMutation($filename: String!, $file: Upload!) {
+        readFile(filename: $filename, file: $file){
+            filename
+        }
     }
     """)
