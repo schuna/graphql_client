@@ -17,11 +17,16 @@ async def delay_message(delay, message):
 
 
 async def main():
+    background_tasks = set()
     logging.info("Main started")
     logging.info("Creating multiple tasks with asyncio.gather")
-    await asyncio.gather(
-        *[delay_message(i + 1, num_word_mapping[i + 1]) for i in range(5)])  # awaits completion of all tasks
+    for i in range(5):
+        task = asyncio.create_task(delay_message(i + 1, num_word_mapping[i + 1]))
+        background_tasks.add(task)
+        task.add_done_callback(background_tasks.discard)
+    await asyncio.sleep(0)
     logging.info("Main Ended")
+    await asyncio.sleep(5)
 
 
 if __name__ == '__main__':

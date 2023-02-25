@@ -1,4 +1,4 @@
-gql[aiohttp]
+gql[aiohttp, websockets]
 typer[all]
 python-dotenv
 pydantic

@@ -44,3 +44,16 @@ MUTATION_FILE_UPLOAD = gql(
         }
     }
     """)
+
+SUBSCRIPTION_ADD_USER = gql(
+    """
+    subscription {
+        user: userAddedSubscription {
+            id
+            username
+            email
+            password
+        }
+    }
+    """
+)

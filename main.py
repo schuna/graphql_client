@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 
 from api.field import UserSchema
-from api.resolvers import get_users, get_user, add_user, file_up_load
+from api.resolvers import get_users, get_user, add_user, file_up_load, update_user
 
 app = typer.Typer()
 
@@ -31,6 +31,11 @@ def add_user_command(
 @app.command("upload_file")
 def upload_file_command(file: Path = typer.Argument(..., help="file to upload")):
     asyncio.run(file_up_load(file))
+
+
+@app.command("update_user")
+def update_user_command():
+    asyncio.run(update_user())
 
 
 if __name__ == '__main__':

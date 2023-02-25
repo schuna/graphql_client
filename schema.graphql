@@ -12,7 +12,7 @@ type UserSchema {
 
 type Mutation {
   user(data: UserCreateInput!): UserSchema!
-  readFile(file: Upload!): String!
+  readFile(filename: String!, file: Upload!): UploadFileSchema!
   readFiles(files: [Upload!]!): [String!]!
   readFolder(folder: FolderInput!): [String!]!
 }
@@ -23,8 +23,16 @@ input UserCreateInput {
   password: String!
 }
 
+type UploadFileSchema {
+  filename: String!
+}
+
 scalar Upload
 
 input FolderInput {
   files: [Upload!]!
+}
+
+type Subscription {
+  userAddedSubscription: UserSchema!
 }
