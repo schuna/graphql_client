@@ -15,6 +15,18 @@ from api.utils import transport, ws_transport
 logger_format = '%(asctime)s:%(threadName)s:%(message)s'
 logging.basicConfig(format=logger_format, level=logging.INFO, datefmt="%H:%M:%S")
 
+monitoring = True
+last_user = {
+    "username": None,
+    "email": None,
+    "password": None
+}
+current_user = {
+    "username": None,
+    "email": None,
+    "password": None
+}
+
 
 async def execute_subscribe(query: gql):
     logging.info("subscription start ... ")
@@ -22,8 +34,18 @@ async def execute_subscribe(query: gql):
         try:
             async for result in session.subscribe(query):
                 logging.info(f"added: {result}")
+                current_user.update(result['user'])
         except Exception as e:
             print(f"Websocket terminated: {e}")
+
+
+async def monitor_added_user():
+    logging.info("monitoring start ... ")
+    while monitoring:
+        await asyncio.sleep(1)
+        if last_user["username"] != current_user["username"]:
+            logging.info(f"new user: {current_user}")
+            last_user.update(current_user)
 
 
 async def execute_query(query: gql, variables=None, kwargs=None):
@@ -66,7 +88,10 @@ async def update_user():
     task = asyncio.create_task(execute_subscribe(SUBSCRIPTION_ADD_USER))
     background_tasks.add(task)
     task.add_done_callback(background_tasks.discard)
-    await asyncio.sleep(3)
+    task = asyncio.create_task(monitor_added_user())
+    background_tasks.add(task)
+    task.add_done_callback(background_tasks.discard)
+    await asyncio.sleep(1)
     logging.info("Add user")
     for i in range(10):
         username = uuid.uuid4()
